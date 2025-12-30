@@ -9,19 +9,19 @@
 	</div>
 </div>
 <script>
-	import { Engine } from "@utils/matterjs/engine";
-	import { createBodies } from "./bodies";
-	import { createCanvasByContainer } from "@utils/matterjs/canvas";
-
-	const containers = document.querySelectorAll(`[container-bg-tanuki]`);
-	containers.forEach((container) => {
-		const canvas = createCanvasByContainer(container);
-		const bodies = createBodies(canvas);
-		const engine = new Engine({
-			canvas,
-			bodies,
-		});
-
-		engine.start();
-	});
+	// import { Engine } from "@utils/matterjs/engine";
+	// import { createBodies } from "./bodies";
+	// import { createCanvasByContainer } from "@utils/matterjs/canvas";
+	//
+	// const containers = document.querySelectorAll(`[container-bg-tanuki]`);
+	// containers.forEach((container) => {
+	// 	const canvas = createCanvasByContainer(container);
+	// 	const bodies = createBodies(canvas);
+	// 	const engine = new Engine({
+	// 		canvas,
+	// 		bodies,
+	// 	});
+	//
+	// 	engine.start();
+	// });
 </script>

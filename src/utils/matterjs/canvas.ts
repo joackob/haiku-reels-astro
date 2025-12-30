@@ -3,11 +3,11 @@ export interface ICanvasBounds {
 	height: number;
 }
 
-export const createCanvasByContainer = (container: Element): HTMLCanvasElement => {
-	const size = container.getBoundingClientRect();
+export const crearCanvasYAgregarloAlElemento = (elemento: Element): HTMLCanvasElement => {
+	const size = elemento.getBoundingClientRect();
 	const canvas = document.createElement("canvas");
 	canvas.width = size.width;
 	canvas.height = size.height;
-	container.appendChild(canvas);
+	elemento.appendChild(canvas);
 	return canvas;
 };

@@ -1,5 +1,7 @@
 <div class="relative h-full">
-	<div class="absolute h-full w-full" container-bg-templo></div>
+	<div class="absolute h-full w-full">
+		<canvas class="h-full w-full" container-bg-templo></canvas>
+	</div>
 
 	<div class="flex flex-col h-full">
 		<div class="grow"></div>
@@ -11,27 +13,28 @@
 </div>
 <script>
 	import { createBodies } from "./bodies";
-	import { createCanvasByContainer } from "@utils/matterjs/canvas";
-	import { Engine } from "@utils/matterjs/engine";
+	// import { createCanvasByContainer } from "@utils/matterjs/canvas";
+	import { MotorFisico } from "@utils/matterjs/engine";
 	import { Vector, Body } from "matter-js";
 
-	const containers = document.querySelectorAll(`[container-bg-templo]`);
+	const containers = document.querySelectorAll<HTMLCanvasElement>(`canvas[container-bg-templo]`);
 	containers.forEach((container) => {
-		const canvas = createCanvasByContainer(container);
-		const bodies = createBodies(canvas);
-		const velocity = Vector.create(-0.5, 0);
+		// const canvas = createCanvasByContainer(container);
+		const canvas = container;
+		const cuerpos = createBodies(canvas);
+		const velocidad = Vector.create(-0.5, 0);
 
-		const engine = new Engine({
+		const motor = new MotorFisico({
 			canvas,
-			bodies,
+			cuerpos,
 		});
 
-		engine.beforeUpdate(() => {
-			bodies.forEach((body) => {
-				Body.setVelocity(body, velocity);
+		motor.despuesDeActualizar(() => {
+			cuerpos.forEach((cuerpo) => {
+				Body.setVelocity(cuerpo, velocidad);
 			});
 		});
 
-		engine.start();
+		motor.comenzar();
 	});
 </script>

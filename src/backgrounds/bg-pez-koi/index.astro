@@ -9,33 +9,33 @@
 	</div>
 </div>
 <script>
-	import { Engine } from "@utils/matterjs/engine";
-	import { createBodies } from "./bodies";
-	import { createCanvasByContainer } from "@utils/matterjs/canvas";
-	import Matter, { Vector } from "matter-js";
-
-	const containers = document.querySelectorAll(`[container-bg-pez-koi]`);
-	containers.forEach((container) => {
-		const canvas = createCanvasByContainer(container);
-		const bodies = createBodies(canvas);
-		const radioDeGiro = Vector.magnitude(bodies[0].position);
-		const engineWithoutGravity = Matter.Engine.create({
-			gravity: { x: 0, y: 0 },
-		});
-		const engine = new Engine({
-			canvas,
-			bodies,
-			engine: engineWithoutGravity,
-		});
-		engine.beforeUpdate(() => {
-			const koi = bodies[0];
-			const radioDeGiro = Matter.Vector.magnitude(koi.position);
-
-			Matter.Body.setPosition(koi, {
-				x: radioDeGiro * Math.cos(koi.angle),
-				y: radioDeGiro * Math.sin(koi.angle),
-			});
-		});
-		engine.start();
-	});
+	// 	import { Engine } from "@utils/matterjs/engine";
+	// 	import { createBodies } from "./bodies";
+	// 	import { createCanvasByContainer } from "@utils/matterjs/canvas";
+	// 	import Matter, { Vector } from "matter-js";
+	//
+	// 	const containers = document.querySelectorAll(`[container-bg-pez-koi]`);
+	// 	containers.forEach((container) => {
+	// 		const canvas = createCanvasByContainer(container);
+	// 		const bodies = createBodies(canvas);
+	// 		const radioDeGiro = Vector.magnitude(bodies[0].position);
+	// 		const engineWithoutGravity = Matter.Engine.create({
+	// 			gravity: { x: 0, y: 0 },
+	// 		});
+	// 		const engine = new Engine({
+	// 			canvas,
+	// 			bodies,
+	// 			engine: engineWithoutGravity,
+	// 		});
+	// 		engine.beforeUpdate(() => {
+	// 			const koi = bodies[0];
+	// 			const radioDeGiro = Matter.Vector.magnitude(koi.position);
+	//
+	// 			Matter.Body.setPosition(koi, {
+	// 				x: radioDeGiro * Math.cos(koi.angle),
+	// 				y: radioDeGiro * Math.sin(koi.angle),
+	// 			});
+	// 		});
+	// 		engine.start();
+	// 	});
 </script>

@@ -1,83 +1,92 @@
 import Matter from "matter-js";
 
-interface IEngineProps {
+interface PropiedadesDelMotorFisico {
 	canvas: HTMLCanvasElement;
-	bodies: Matter.Body[];
+	cuerpos: Matter.Body[];
 	render: Matter.Render;
-	engine: Matter.Engine;
-	runner: Matter.Runner;
+	motor: Matter.Engine;
+	ejecutor: Matter.Runner;
 }
 
-interface IEngineConstructorProps {
+interface ParametrosDelConstructorDelMotorFisico {
 	canvas: HTMLCanvasElement;
-	bodies: Matter.Body[];
-	engine?: Matter.Engine;
-	runner?: Matter.Runner;
+	cuerpos: Matter.Body[];
+	motor?: Matter.Engine;
+	ejecutor?: Matter.Runner;
 }
 
-export class Engine {
-	private props: IEngineProps;
+export class MotorFisico {
+	private props: PropiedadesDelMotorFisico;
 
 	constructor({
 		canvas,
-		bodies,
-		engine = Matter.Engine.create(),
-		runner = Matter.Runner.create(),
-	}: IEngineConstructorProps) {
+		cuerpos,
+		motor: engine = Matter.Engine.create(),
+		ejecutor: runner = Matter.Runner.create(),
+	}: ParametrosDelConstructorDelMotorFisico) {
+		const limitesDelCanvas = canvas.getBoundingClientRect();
 		const render = Matter.Render.create({
 			canvas,
 			engine,
 			options: {
-				width: canvas.width,
-				height: canvas.height,
+				width: limitesDelCanvas.width,
+				height: limitesDelCanvas.height,
 				background: "transparent",
 				wireframes: false,
 			},
 		});
-		Matter.World.add(engine.world, bodies);
+		Matter.World.add(engine.world, cuerpos);
 		this.props = {
 			canvas,
-			bodies,
-			engine,
-			runner,
+			cuerpos,
+			motor: engine,
+			ejecutor: runner,
 			render,
 		};
 	}
 
-	run(): void {
+	private ejecutar(): MotorFisico {
 		Matter.Render.run(this.props.render);
-		Matter.Runner.run(this.props.runner, this.props.engine);
+		Matter.Runner.run(this.props.ejecutor, this.props.motor);
+		return this;
 	}
 
-	stop(): void {
+	private detener(): MotorFisico {
 		Matter.Render.stop(this.props.render);
-		Matter.Runner.stop(this.props.runner);
+		Matter.Runner.stop(this.props.ejecutor);
+		return this;
 	}
 
-	start(): void {
-		const options: IntersectionObserverInit = {
+	comenzar(): MotorFisico {
+		const configuracionParaDetectarIntersecciones: IntersectionObserverInit = {
 			root: document.getElementById("haikus-container"),
 			rootMargin: "0px",
 			threshold: 1.0,
 		};
-		const checkEntries = (entries: IntersectionObserverEntry[]): void => {
+		const ejecutarMotorSiEsVisibleParaElUsuario: IntersectionObserverCallback = (entries): void => {
 			entries.forEach((entry) => {
 				if (entry.isIntersecting) {
-					this.run();
+					this.ejecutar();
 				} else {
-					this.stop();
+					this.detener();
 				}
 			});
 		};
-		const observer = new IntersectionObserver(checkEntries, options);
-		observer.observe(this.props.canvas);
+		const observador = new IntersectionObserver(
+			ejecutarMotorSiEsVisibleParaElUsuario,
+			configuracionParaDetectarIntersecciones,
+		);
+		observador.observe(this.props.canvas);
+		return this;
 	}
 
-	beforeUpdate(callback: () => void): void {
-		Matter.Events.on(this.props.engine, "beforeUpdate", callback);
+	antesDeActualizar(callback: () => void): MotorFisico {
+		Matter.Events.on(this.props.motor, "beforeUpdate", callback);
+		return this;
 	}
 
-	afterUpdate(callback: () => void): void {
-		Matter.Events.on(this.props.engine, "afterUpdate", callback);
+	despuesDeActualizar(callback: () => void): MotorFisico {
+		Matter.Events.on(this.props.motor, "afterUpdate", callback);
+		return this;
 	}
 }

@@ -64,7 +64,13 @@ const createTemple = ({ x, y, bounds }: ITemple): Matter.Body => {
 	});
 };
 
-export const createBodies = (bounds: ICanvasBounds): Matter.Body[] => {
+export const createBodies = (canvas: HTMLCanvasElement): Matter.Body[] => {
+	const caja = canvas.getBoundingClientRect();
+	const bounds = {
+		width: Math.floor(caja.width),
+		height: Math.floor(caja.height),
+	};
+	console.log(bounds);
 	const IN_MOBILE_FORMAT = bounds.width <= 430;
 	const DELTA_X = IN_MOBILE_FORMAT ? bounds.width * 1.75 : bounds.width * 1.3;
 

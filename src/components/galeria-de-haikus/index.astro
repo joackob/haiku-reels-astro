@@ -1,31 +1,32 @@
 ---
-import SeccionParaCadaHaikuReel from "@layouts/seccion-para-cada-tarjeta-reel.astro";
+import SeccionEstiloTarjetaParaCadaHaiku from "@layouts/seccion-para-cada-tarjeta-reel.astro";
 import ArticuloParaCadaHaiku from "@components/articulo-para-cada-haiku/index.astro";
-import BgOrigamis from "@backgrounds/bg-origamis/index.astro";
-import BgJ from "@backgrounds/bg-j/index.astro";
+// import BgOrigamis from "@backgrounds/bg-origamis/index.astro";
+// import BgJ from "@backgrounds/bg-j/index.astro";
 import BgTemplo from "@backgrounds/bg-templo/index.astro";
-import BgLamparas from "@backgrounds/bg-lampara/index.astro";
-import BgTanuki from "@backgrounds/bg-tanuki/index.astro";
-import BgPezKoi from "@backgrounds/bg-pez-koi/index.astro";
+// import BgLamparas from "@backgrounds/bg-lampara/index.astro";
+// import BgTanuki from "@backgrounds/bg-tanuki/index.astro";
+// import BgPezKoi from "@backgrounds/bg-pez-koi/index.astro";
 import { getCollection } from "astro:content";
 
-const fondosArtisticos = [BgPezKoi, BgTanuki, BgLamparas, BgTemplo, BgOrigamis, BgJ, BgPezKoi];
+// const fondosArtisticos = [BgPezKoi, BgTanuki, BgLamparas, BgTemplo, BgOrigamis, BgJ, BgPezKoi];
+const fondosArtisticos = [BgTemplo];
 const haikus = await getCollection("haikus");
-const HaikusComponents = await Promise.all(haikus.map(async (haiku) => await haiku.render()));
+const Haikus = await Promise.all(haikus.map(async (haiku) => await haiku.render()));
 ---
 
 {
-	HaikusComponents.map(({ Content: Haiku }, index) => {
+	Haikus.map(({ Content: Haiku }, index) => {
 		const FondoArtistico = fondosArtisticos[index % fondosArtisticos.length];
 		const { autoria, pubDate, tags } = haikus[index].data;
 		return (
-			<SeccionParaCadaHaikuReel>
+			<SeccionEstiloTarjetaParaCadaHaiku>
 				<FondoArtistico>
 					<ArticuloParaCadaHaiku autoria={autoria} pubDate={pubDate} tags={tags}>
 						<Haiku />
 					</ArticuloParaCadaHaiku>
 				</FondoArtistico>
-			</SeccionParaCadaHaikuReel>
+			</SeccionEstiloTarjetaParaCadaHaiku>
 		);
 	})
 }

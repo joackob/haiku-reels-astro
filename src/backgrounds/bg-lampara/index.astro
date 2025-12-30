@@ -9,27 +9,27 @@
 	</div>
 </div>
 <script>
-	import { createBodies } from "./bodies";
-	import { createCanvasByContainer } from "@utils/matterjs/canvas";
-	import { Engine } from "@utils/matterjs/engine";
-	import { Vector, Body } from "matter-js";
-
-	const containers = document.querySelectorAll(`[container-bg-lamparas]`);
-	containers.forEach((container) => {
-		const canvas = createCanvasByContainer(container);
-		const bodies = createBodies(canvas);
-		const velocity = Vector.create(0.4, -0.4);
-		const engine = new Engine({
-			canvas,
-			bodies,
-		});
-
-		engine.beforeUpdate(() => {
-			bodies.forEach((body) => {
-				Body.setVelocity(body, velocity);
-			});
-		});
-
-		engine.start();
-	});
+	// 	import { createBodies } from "./bodies";
+	// 	import { createCanvasByContainer } from "@utils/matterjs/canvas";
+	// 	import { Engine } from "@utils/matterjs/engine";
+	// 	import { Vector, Body } from "matter-js";
+	//
+	// 	const containers = document.querySelectorAll(`[container-bg-lamparas]`);
+	// 	containers.forEach((container) => {
+	// 		const canvas = createCanvasByContainer(container);
+	// 		const bodies = createBodies(canvas);
+	// 		const velocity = Vector.create(0.4, -0.4);
+	// 		const engine = new Engine({
+	// 			canvas,
+	// 			bodies,
+	// 		});
+	//
+	// 		engine.beforeUpdate(() => {
+	// 			bodies.forEach((body) => {
+	// 				Body.setVelocity(body, velocity);
+	// 			});
+	// 		});
+	//
+	// 		engine.start();
+	// 	});
 </script>

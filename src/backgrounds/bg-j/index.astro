@@ -5,19 +5,19 @@
 	</div>
 </div>
 <script>
-	import { createBodies } from "./bodies";
-	import { createCanvasByContainer } from "@utils/matterjs/canvas";
-	import { Engine } from "@utils/matterjs/engine";
-
-	const containers = document.querySelectorAll(`[container-bg-j]`);
-	containers.forEach((container) => {
-		const canvas = createCanvasByContainer(container);
-		const bodies = createBodies(canvas);
-		const engine = new Engine({
-			canvas,
-			bodies,
-		});
-
-		engine.start();
-	});
+	// 	import { createBodies } from "./bodies";
+	// 	import { createCanvasByContainer } from "@utils/matterjs/canvas";
+	// 	import { Engine } from "@utils/matterjs/engine";
+	//
+	// 	const containers = document.querySelectorAll(`[container-bg-j]`);
+	// 	containers.forEach((container) => {
+	// 		const canvas = createCanvasByContainer(container);
+	// 		const bodies = createBodies(canvas);
+	// 		const engine = new Engine({
+	// 			canvas,
+	// 			bodies,
+	// 		});
+	//
+	// 		engine.start();
+	// 	});
 </script>
