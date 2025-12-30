@@ -1,7 +1,5 @@
 <div class="relative h-full">
-	<div class="absolute h-full w-full">
-		<canvas class="h-full w-full" container-bg-templo></canvas>
-	</div>
+	<canvas class="absolute h-full w-full" container-bg-templo></canvas>
 
 	<div class="flex flex-col h-full">
 		<div class="grow"></div>
@@ -13,14 +11,11 @@
 </div>
 <script>
 	import { createBodies } from "./bodies";
-	// import { createCanvasByContainer } from "@utils/matterjs/canvas";
 	import { MotorFisico } from "@utils/matterjs/engine";
 	import { Vector, Body } from "matter-js";
 
-	const containers = document.querySelectorAll<HTMLCanvasElement>(`canvas[container-bg-templo]`);
-	containers.forEach((container) => {
-		// const canvas = createCanvasByContainer(container);
-		const canvas = container;
+	const lienzos = document.querySelectorAll<HTMLCanvasElement>(`canvas[container-bg-templo]`);
+	lienzos.forEach((canvas) => {
 		const cuerpos = createBodies(canvas);
 		const velocidad = Vector.create(-0.5, 0);
 
