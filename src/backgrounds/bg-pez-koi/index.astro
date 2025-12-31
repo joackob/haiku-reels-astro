@@ -1,5 +1,5 @@
 <div class="relative h-full">
-	<div class="absolute h-full w-full" container-bg-pez-koi></div>
+	<canvas class="absolute h-full w-full" container-bg-pez-koi></canvas>
 	<div class="flex flex-col h-full">
 		<div class="grow"></div>
 		<div class="relative z-10">
@@ -9,33 +9,30 @@
 	</div>
 </div>
 <script>
-	// 	import { Engine } from "@utils/matterjs/engine";
-	// 	import { createBodies } from "./bodies";
-	// 	import { createCanvasByContainer } from "@utils/matterjs/canvas";
-	// 	import Matter, { Vector } from "matter-js";
-	//
-	// 	const containers = document.querySelectorAll(`[container-bg-pez-koi]`);
-	// 	containers.forEach((container) => {
-	// 		const canvas = createCanvasByContainer(container);
-	// 		const bodies = createBodies(canvas);
-	// 		const radioDeGiro = Vector.magnitude(bodies[0].position);
-	// 		const engineWithoutGravity = Matter.Engine.create({
-	// 			gravity: { x: 0, y: 0 },
-	// 		});
-	// 		const engine = new Engine({
-	// 			canvas,
-	// 			bodies,
-	// 			engine: engineWithoutGravity,
-	// 		});
-	// 		engine.beforeUpdate(() => {
-	// 			const koi = bodies[0];
-	// 			const radioDeGiro = Matter.Vector.magnitude(koi.position);
-	//
-	// 			Matter.Body.setPosition(koi, {
-	// 				x: radioDeGiro * Math.cos(koi.angle),
-	// 				y: radioDeGiro * Math.sin(koi.angle),
-	// 			});
-	// 		});
-	// 		engine.start();
-	// 	});
+	import { MotorFisico } from "@utils/matterjs/engine";
+	import { crearKoiDentroDeLosLimitesDelLienzo } from "./bodies";
+	import Matter from "matter-js";
+
+	const lienzos = document.querySelectorAll<HTMLCanvasElement>(`canvas[container-bg-pez-koi]`);
+	lienzos.forEach((lienzo) => {
+		const cuerpos = crearKoiDentroDeLosLimitesDelLienzo(lienzo);
+		const motorSinGravedad = Matter.Engine.create({
+			gravity: { x: 0, y: 0 },
+		});
+		const motor = new MotorFisico({
+			lienzo,
+			cuerpos: cuerpos,
+			motor: motorSinGravedad,
+		});
+		motor.antesDeActualizar(() => {
+			const koi = cuerpos[0];
+			const radioDeGiro = Matter.Vector.magnitude(koi.position);
+
+			Matter.Body.setPosition(koi, {
+				x: radioDeGiro * Math.cos(koi.angle),
+				y: radioDeGiro * Math.sin(koi.angle),
+			});
+		});
+		motor.comenzar();
+	});
 </script>

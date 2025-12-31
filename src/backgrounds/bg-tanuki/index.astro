@@ -1,5 +1,5 @@
 <div class="relative h-full">
-	<div class="absolute h-full w-full" container-bg-tanuki></div>
+	<canvas class="absolute h-full w-full" container-bg-tanuki></canvas>
 	<div class="flex flex-col h-full">
 		<div class="grow"></div>
 		<div class="relative z-10">
@@ -9,19 +9,17 @@
 	</div>
 </div>
 <script>
-	// import { Engine } from "@utils/matterjs/engine";
-	// import { createBodies } from "./bodies";
-	// import { createCanvasByContainer } from "@utils/matterjs/canvas";
-	//
-	// const containers = document.querySelectorAll(`[container-bg-tanuki]`);
-	// containers.forEach((container) => {
-	// 	const canvas = createCanvasByContainer(container);
-	// 	const bodies = createBodies(canvas);
-	// 	const engine = new Engine({
-	// 		canvas,
-	// 		bodies,
-	// 	});
-	//
-	// 	engine.start();
-	// });
+	import { MotorFisico } from "@utils/matterjs/engine";
+	import { crearTanukisDentroDeLosLimitesDelLienzo } from "./bodies";
+
+	const lienzos = document.querySelectorAll<HTMLCanvasElement>(`canvas[container-bg-tanuki]`);
+	lienzos.forEach((lienzo) => {
+		const figuras = crearTanukisDentroDeLosLimitesDelLienzo(lienzo);
+		const motor = new MotorFisico({
+			lienzo,
+			cuerpos: figuras,
+		});
+
+		motor.comenzar();
+	});
 </script>

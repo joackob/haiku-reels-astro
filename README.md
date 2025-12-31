@@ -49,9 +49,9 @@ Además la estructura básica de cualquier proyecto desarrollado con Astro🚀, 
 
 En la carpeta `backgrounds` se encuentran cada uno de los "fondos" que acompañan a los haikus, separados por carpetas.
 
-Cada `background` debe estar envuelto en el componente `haiku-section.astro` , limitándose a sus dimensiones para no romper con el flujo normal de la interfaz.
+Si bien, cada desarrollador es libre de generar los fondos que desee, parece importante comentar tres características que deben tener de obligatoria
 
-Por otro lado, el `background` debe contener a la etiqueta `<slot/>` siendo que este será reemplazado por el haiku correspondiente.
+
 
 ```react
 ---
