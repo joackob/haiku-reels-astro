@@ -1,4 +1,4 @@
-import { createRectangle } from "@utils/matterjs/bodies";
+import { crearUnRectangulo } from "@utils/matterjs/bodies";
 import type { ICanvasBounds } from "@utils/matterjs/canvas";
 
 import { atomicTangerineColor, brightPinkCrayolaColor } from "@utils/matterjs/colors";
@@ -13,19 +13,19 @@ interface ILamp {
 const createLamp = ({ x, y, width }: ILamp): Matter.Body =>
 	Body.create({
 		parts: [
-			createRectangle({
+			crearUnRectangulo({
 				x,
 				y,
-				width,
-				height: width * 2,
-				fillColor: brightPinkCrayolaColor,
+				ancho: width,
+				alto: width * 2,
+				colorDeRelleno: brightPinkCrayolaColor,
 			}),
-			createRectangle({
+			crearUnRectangulo({
 				x,
 				y,
-				height: width * 0.5,
-				width: width * 0.5,
-				fillColor: atomicTangerineColor,
+				alto: width * 0.5,
+				ancho: width * 0.5,
+				colorDeRelleno: atomicTangerineColor,
 				angle: 0.25 * Math.PI,
 			}),
 		],

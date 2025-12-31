@@ -1,7 +1,7 @@
 import Matter from "matter-js";
 
 interface PropiedadesDelMotorFisico {
-	canvas: HTMLCanvasElement;
+	lienzo: HTMLCanvasElement;
 	cuerpos: Matter.Body[];
 	render: Matter.Render;
 	motor: Matter.Engine;
@@ -9,7 +9,7 @@ interface PropiedadesDelMotorFisico {
 }
 
 interface ParametrosDelConstructorDelMotorFisico {
-	canvas: HTMLCanvasElement;
+	lienzo: HTMLCanvasElement;
 	cuerpos: Matter.Body[];
 	motor?: Matter.Engine;
 	ejecutor?: Matter.Runner;
@@ -19,28 +19,28 @@ export class MotorFisico {
 	private props: PropiedadesDelMotorFisico;
 
 	constructor({
-		canvas,
+		lienzo,
 		cuerpos,
-		motor: engine = Matter.Engine.create(),
-		ejecutor: runner = Matter.Runner.create(),
+		motor = Matter.Engine.create(),
+		ejecutor = Matter.Runner.create(),
 	}: ParametrosDelConstructorDelMotorFisico) {
-		const limitesDelCanvas = canvas.getBoundingClientRect();
+		const limitesDelLienzo = lienzo.getBoundingClientRect();
 		const render = Matter.Render.create({
-			canvas,
-			engine,
+			canvas: lienzo,
+			engine: motor,
 			options: {
-				width: limitesDelCanvas.width,
-				height: limitesDelCanvas.height,
+				width: limitesDelLienzo.width,
+				height: limitesDelLienzo.height,
 				background: "transparent",
 				wireframes: false,
 			},
 		});
-		Matter.World.add(engine.world, cuerpos);
+		Matter.World.add(motor.world, cuerpos);
 		this.props = {
-			canvas,
+			lienzo,
 			cuerpos,
-			motor: engine,
-			ejecutor: runner,
+			motor,
+			ejecutor,
 			render,
 		};
 	}
@@ -76,7 +76,7 @@ export class MotorFisico {
 			ejecutarMotorSiEsVisibleParaElUsuario,
 			configuracionParaDetectarIntersecciones,
 		);
-		observador.observe(this.props.canvas);
+		observador.observe(this.props.lienzo);
 		return this;
 	}
 

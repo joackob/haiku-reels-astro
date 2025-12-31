@@ -10,22 +10,22 @@
 	</div>
 </div>
 <script>
-	import { createBodies } from "./bodies";
+	import { crearFigurasAcordeALosLimitesDelLienzo } from "./bodies";
 	import { MotorFisico } from "@utils/matterjs/engine";
 	import { Vector, Body } from "matter-js";
 
 	const lienzos = document.querySelectorAll<HTMLCanvasElement>(`canvas[container-bg-templo]`);
-	lienzos.forEach((canvas) => {
-		const cuerpos = createBodies(canvas);
+	lienzos.forEach((lienzo) => {
+		const figuras = crearFigurasAcordeALosLimitesDelLienzo(lienzo);
 		const velocidad = Vector.create(-0.5, 0);
 
 		const motor = new MotorFisico({
-			canvas,
-			cuerpos,
+			lienzo,
+			cuerpos: figuras,
 		});
 
 		motor.despuesDeActualizar(() => {
-			cuerpos.forEach((cuerpo) => {
+			figuras.forEach((cuerpo) => {
 				Body.setVelocity(cuerpo, velocidad);
 			});
 		});

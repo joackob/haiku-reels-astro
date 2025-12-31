@@ -1,78 +1,85 @@
-import { Bodies, Body, Composites, Vector } from "matter-js";
+import { Bodies, Composites } from "matter-js";
 
-
-interface ICircle {
+export const crearUnCirculo = ({
+	x,
+	y,
+	radio,
+	colorDeRelleno,
+}: {
 	x: number;
 	y: number;
 	radio: number;
-	fillColor: string;
-}
+	colorDeRelleno: string;
+}): Matter.Body => Bodies.circle(x, y, radio, { render: { fillStyle: colorDeRelleno } });
 
-export const createCircle = ({ x, y, radio, fillColor }: ICircle): Matter.Body =>
-	Bodies.circle(x, y, radio, { render: { fillStyle: fillColor } });
-
-interface IRectangle {
-	x: number;
-	y: number;
-	width: number;
-	height: number;
-	fillColor: string;
-	isStatic?: boolean;
-	angle?: number;
-}
-
-export const createRectangle = ({
+export const crearUnRectangulo = ({
 	x,
 	y,
-	width,
-	height,
-	fillColor,
-	isStatic = false,
-	angle = 0,
-}: IRectangle): Matter.Body =>
-	Bodies.rectangle(x, y, width, height, {
-		isStatic,
-		render: { fillStyle: fillColor },
-		angle,
-	});
-
-interface ITrapezoid {
+	ancho,
+	alto,
+	colorDeRelleno,
+	estaQuieto = false,
+	anguloDeInclinacion = 0,
+}: {
 	x: number;
 	y: number;
-	width: number;
-	height: number;
-	slope: number;
-	fillColor: string;
-	isStatic?: boolean;
-}
+	ancho: number;
+	alto: number;
+	colorDeRelleno: string;
+	estaQuieto?: boolean;
+	anguloDeInclinacion?: number;
+}): Matter.Body =>
+	Bodies.rectangle(x, y, ancho, alto, {
+		isStatic: estaQuieto,
+		render: { fillStyle: colorDeRelleno },
+		angle: anguloDeInclinacion,
+	});
 
 export const createTrapezoid = ({
 	x,
 	y,
-	width,
-	height,
-	slope,
-	fillColor,
-	isStatic,
-}: ITrapezoid): Matter.Body =>
-	Bodies.trapezoid(x, y, width, height, slope, { isStatic, render: { fillStyle: fillColor } });
-
-interface IBodiesStacks {
+	ancho,
+	alto,
+	inclinacion,
+	colorDeRelleno,
+	estaQuieto,
+}: {
 	x: number;
 	y: number;
-	rows?: number;
-	columns?: number;
-	columnGap?: number;
-	rowGap?: number;
-	create: (x: number, y: number) => Matter.Body;
-}
+	ancho: number;
+	alto: number;
+	inclinacion: number;
+	colorDeRelleno: string;
+	estaQuieto?: boolean;
+}): Matter.Body =>
+	Bodies.trapezoid(x, y, ancho, alto, inclinacion, {
+		isStatic: estaQuieto,
+		render: { fillStyle: colorDeRelleno },
+	});
 
-export const createBodiesStacks = ({
+export const crearFigurasApiladas = ({
 	x,
 	y,
-	rows = 1,
-	columns = 1,
-	columnGap = 0,
-	rowGap = 0,
-	create,
-}: IBodiesStacks): Composites => Composites.stack(x, y, columns, rows, columnGap, rowGap, create);
+	filas = 1,
+	columnas = 1,
+	separacionEntreColumnas = 0,
+	separacionEntreFilas = 0,
+	fabricaDeFiguraParaApilar,
+}: {
+	x: number;
+	y: number;
+	filas?: number;
+	columnas?: number;
+	separacionEntreColumnas?: number;
+	separacionEntreFilas?: number;
+	fabricaDeFiguraParaApilar: (x: number, y: number) => Matter.Body;
+}): Composites =>
+	Composites.stack(
+		x,
+		y,
+		columnas,
+		filas,
+		separacionEntreColumnas,
+		separacionEntreFilas,
+		fabricaDeFiguraParaApilar,
+	);

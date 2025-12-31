@@ -1,5 +1,5 @@
 import { Bodies, Common } from "matter-js";
-import { createRectangle } from "@utils/matterjs/bodies";
+import { crearUnRectangulo } from "@utils/matterjs/bodies";
 import type { ICanvasBounds } from "@utils/matterjs/canvas";
 import { SITE_URL } from "@config/consts";
 
@@ -24,28 +24,28 @@ const createOrigami = ({ x, y, size }: IOrigami): Matter.Body => {
 
 export const createBodies = (bounds: ICanvasBounds): Matter.Body[] => {
 	const wight = 10;
-	const floor = createRectangle({
+	const floor = crearUnRectangulo({
 		x: bounds.width / 2,
 		y: bounds.height,
-		width: bounds.width,
-		height: wight,
-		fillColor: "transparent",
+		ancho: bounds.width,
+		alto: wight,
+		colorDeRelleno: "transparent",
 		isStatic: true,
 	});
-	const leftWall = createRectangle({
+	const leftWall = crearUnRectangulo({
 		x: 0,
 		y: bounds.height / 2,
-		width: wight,
-		height: bounds.height,
-		fillColor: "transparent",
+		ancho: wight,
+		alto: bounds.height,
+		colorDeRelleno: "transparent",
 		isStatic: true,
 	});
-	const rightWall = createRectangle({
+	const rightWall = crearUnRectangulo({
 		x: bounds.width,
 		y: bounds.height / 2,
-		width: wight,
-		height: bounds.height,
-		fillColor: "transparent",
+		ancho: wight,
+		alto: bounds.height,
+		colorDeRelleno: "transparent",
 		isStatic: true,
 	});
 	const ORIGAMIS_NUMBER = 30;

@@ -1,4 +1,4 @@
-import { createCircle, createRectangle } from "@utils/matterjs/bodies";
+import { crearUnCirculo, crearUnRectangulo } from "@utils/matterjs/bodies";
 import type { ICanvasBounds } from "@utils/matterjs/canvas";
 
 import {
@@ -9,51 +9,51 @@ import {
 
 export const createBodies = (bounds: ICanvasBounds): Matter.Body[] => {
 	const WIGHT = 10;
-	const floor = createRectangle({
+	const floor = crearUnRectangulo({
 		x: bounds.width / 2,
 		y: bounds.height,
-		width: bounds.width,
-		height: WIGHT,
-		fillColor: "transparent",
+		ancho: bounds.width,
+		alto: WIGHT,
+		colorDeRelleno: "transparent",
 		isStatic: true,
 	});
-	const leftWall = createRectangle({
+	const leftWall = crearUnRectangulo({
 		x: 0,
 		y: bounds.height / 2,
-		width: WIGHT,
-		height: bounds.height,
-		fillColor: "transparent",
+		ancho: WIGHT,
+		alto: bounds.height,
+		colorDeRelleno: "transparent",
 		isStatic: true,
 	});
-	const rightWall = createRectangle({
+	const rightWall = crearUnRectangulo({
 		x: bounds.width,
 		y: bounds.height / 2,
-		width: WIGHT,
-		height: bounds.height,
-		fillColor: "transparent",
+		ancho: WIGHT,
+		alto: bounds.height,
+		colorDeRelleno: "transparent",
 		isStatic: true,
 	});
 
 	const DELTA = 750;
-	const bar = createRectangle({
+	const bar = crearUnRectangulo({
 		x: bounds.width / 2,
 		y: 0 - DELTA,
-		width: bounds.width - WIGHT,
-		height: bounds.height * 0.1,
-		fillColor: quinacridoneMagentaColor,
+		ancho: bounds.width - WIGHT,
+		alto: bounds.height * 0.1,
+		colorDeRelleno: quinacridoneMagentaColor,
 	});
-	const disco = createCircle({
+	const disco = crearUnCirculo({
 		x: bounds.width / 4,
 		y: bounds.height / 2 - DELTA,
 		radio: bounds.width / 4 - WIGHT,
-		fillColor: brightPinkCrayolaColor,
+		colorDeRelleno: brightPinkCrayolaColor,
 	});
-	const column = createRectangle({
+	const column = crearUnRectangulo({
 		x: bounds.width * 0.75,
 		y: bounds.height / 2 - DELTA,
-		width: bounds.width / 2 - 2 * WIGHT,
-		height: bounds.height - bounds.height / 4,
-		fillColor: atomicTangerineColor,
+		ancho: bounds.width / 2 - 2 * WIGHT,
+		alto: bounds.height - bounds.height / 4,
+		colorDeRelleno: atomicTangerineColor,
 	});
 	return [disco, column, bar, rightWall, leftWall, floor];
 };
