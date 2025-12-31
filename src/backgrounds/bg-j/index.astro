@@ -1,23 +1,21 @@
 <div class="relative h-full">
-	<div class="absolute h-full w-full" container-bg-j></div>
+	<canvas class="absolute h-full w-full" container-bg-j></canvas>
 	<div class="relative z-10">
 		<slot />
 	</div>
 </div>
 <script>
-	// 	import { createBodies } from "./bodies";
-	// 	import { createCanvasByContainer } from "@utils/matterjs/canvas";
-	// 	import { Engine } from "@utils/matterjs/engine";
-	//
-	// 	const containers = document.querySelectorAll(`[container-bg-j]`);
-	// 	containers.forEach((container) => {
-	// 		const canvas = createCanvasByContainer(container);
-	// 		const bodies = createBodies(canvas);
-	// 		const engine = new Engine({
-	// 			canvas,
-	// 			bodies,
-	// 		});
-	//
-	// 		engine.start();
-	// 	});
+	import { crearFigurasQueFormanLaLetra } from "./bodies";
+	import { MotorFisico } from "@utils/matterjs/engine";
+
+	const lienzos = document.querySelectorAll<HTMLCanvasElement>(`canvas[container-bg-j]`);
+	lienzos.forEach((lienzo) => {
+		const figuras = crearFigurasQueFormanLaLetra(lienzo);
+		const engine = new MotorFisico({
+			lienzo,
+			cuerpos: figuras,
+		});
+
+		engine.comenzar();
+	});
 </script>

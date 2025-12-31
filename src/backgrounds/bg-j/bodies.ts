@@ -1,5 +1,4 @@
 import { crearUnCirculo, crearUnRectangulo } from "@utils/matterjs/bodies";
-import type { ICanvasBounds } from "@utils/matterjs/canvas";
 
 import {
 	quinacridoneMagentaColor,
@@ -7,53 +6,54 @@ import {
 	atomicTangerineColor,
 } from "@utils/matterjs/colors";
 
-export const createBodies = (bounds: ICanvasBounds): Matter.Body[] => {
-	const WIGHT = 10;
-	const floor = crearUnRectangulo({
-		x: bounds.width / 2,
-		y: bounds.height,
-		ancho: bounds.width,
-		alto: WIGHT,
+export const crearFigurasQueFormanLaLetra = (lienzo: HTMLCanvasElement): Matter.Body[] => {
+	const limitesDelLienzo = lienzo.getBoundingClientRect();
+	const grosorDeLosLimites = 10;
+	const piso = crearUnRectangulo({
+		x: limitesDelLienzo.width / 2,
+		y: limitesDelLienzo.height,
+		ancho: limitesDelLienzo.width,
+		alto: grosorDeLosLimites,
 		colorDeRelleno: "transparent",
-		isStatic: true,
+		estaQuieto: true,
 	});
-	const leftWall = crearUnRectangulo({
+	const paredeIzquierda = crearUnRectangulo({
 		x: 0,
-		y: bounds.height / 2,
-		ancho: WIGHT,
-		alto: bounds.height,
+		y: limitesDelLienzo.height / 2,
+		ancho: grosorDeLosLimites,
+		alto: limitesDelLienzo.height,
 		colorDeRelleno: "transparent",
-		isStatic: true,
+		estaQuieto: true,
 	});
-	const rightWall = crearUnRectangulo({
-		x: bounds.width,
-		y: bounds.height / 2,
-		ancho: WIGHT,
-		alto: bounds.height,
+	const paredDerecha = crearUnRectangulo({
+		x: limitesDelLienzo.width,
+		y: limitesDelLienzo.height / 2,
+		ancho: grosorDeLosLimites,
+		alto: limitesDelLienzo.height,
 		colorDeRelleno: "transparent",
-		isStatic: true,
+		estaQuieto: true,
 	});
 
 	const DELTA = 750;
-	const bar = crearUnRectangulo({
-		x: bounds.width / 2,
+	const barraHorizontal = crearUnRectangulo({
+		x: limitesDelLienzo.width / 2,
 		y: 0 - DELTA,
-		ancho: bounds.width - WIGHT,
-		alto: bounds.height * 0.1,
+		ancho: limitesDelLienzo.width - grosorDeLosLimites,
+		alto: limitesDelLienzo.height * 0.1,
 		colorDeRelleno: quinacridoneMagentaColor,
 	});
 	const disco = crearUnCirculo({
-		x: bounds.width / 4,
-		y: bounds.height / 2 - DELTA,
-		radio: bounds.width / 4 - WIGHT,
+		x: limitesDelLienzo.width / 4,
+		y: limitesDelLienzo.height / 2 - DELTA,
+		radio: limitesDelLienzo.width / 4 - grosorDeLosLimites,
 		colorDeRelleno: brightPinkCrayolaColor,
 	});
-	const column = crearUnRectangulo({
-		x: bounds.width * 0.75,
-		y: bounds.height / 2 - DELTA,
-		ancho: bounds.width / 2 - 2 * WIGHT,
-		alto: bounds.height - bounds.height / 4,
+	const columna = crearUnRectangulo({
+		x: limitesDelLienzo.width * 0.75,
+		y: limitesDelLienzo.height / 2 - DELTA,
+		ancho: limitesDelLienzo.width / 2 - 2 * grosorDeLosLimites,
+		alto: limitesDelLienzo.height - limitesDelLienzo.height / 4,
 		colorDeRelleno: atomicTangerineColor,
 	});
-	return [disco, column, bar, rightWall, leftWall, floor];
+	return [disco, columna, barraHorizontal, paredDerecha, paredeIzquierda, piso];
 };

@@ -1,5 +1,5 @@
 <div class="relative h-full flex flex-col">
-	<div class="absolute h-full w-full" container-bg-lamparas></div>
+	<canvas class="absolute h-full w-full" container-bg-lamparas></canvas>
 	<div class="flex flex-col h-full">
 		<div class="grow"></div>
 		<div class="relative z-10">
@@ -9,27 +9,25 @@
 	</div>
 </div>
 <script>
-	// 	import { createBodies } from "./bodies";
-	// 	import { createCanvasByContainer } from "@utils/matterjs/canvas";
-	// 	import { Engine } from "@utils/matterjs/engine";
-	// 	import { Vector, Body } from "matter-js";
-	//
-	// 	const containers = document.querySelectorAll(`[container-bg-lamparas]`);
-	// 	containers.forEach((container) => {
-	// 		const canvas = createCanvasByContainer(container);
-	// 		const bodies = createBodies(canvas);
-	// 		const velocity = Vector.create(0.4, -0.4);
-	// 		const engine = new Engine({
-	// 			canvas,
-	// 			bodies,
-	// 		});
-	//
-	// 		engine.beforeUpdate(() => {
-	// 			bodies.forEach((body) => {
-	// 				Body.setVelocity(body, velocity);
-	// 			});
-	// 		});
-	//
-	// 		engine.start();
-	// 	});
+	import { crearLamparas } from "./bodies";
+	import { MotorFisico } from "@utils/matterjs/engine";
+	import { Vector, Body } from "matter-js";
+
+	const lienzos = document.querySelectorAll<HTMLCanvasElement>(`canvas[container-bg-lamparas]`);
+	lienzos.forEach((lienzo) => {
+		const bodies = crearLamparas(lienzo);
+		const velocity = Vector.create(0.4, -0.4);
+		const engine = new MotorFisico({
+			lienzo,
+			cuerpos: bodies,
+		});
+
+		engine.antesDeActualizar(() => {
+			bodies.forEach((body) => {
+				Body.setVelocity(body, velocity);
+			});
+		});
+
+		engine.comenzar();
+	});
 </script>
