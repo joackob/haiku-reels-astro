@@ -1,5 +1,5 @@
 <article
-	class="h-full px-4 pt-8 pb-16 flex flex-col space-y-6 overflow-y-scroll no-scrollbar scrollbar-thin scrollbar-thumb-[#fa9f84] scrollbar-track-transparent dark:scrollbar-thumb-rose_gold"
+	class="informacion-del-sitio h-full px-4 pt-8 pb-16 flex flex-col space-y-6 overflow-y-scroll no-scrollbar scrollbar-thin scrollbar-thumb-[#fa9f84] scrollbar-track-transparent dark:scrollbar-thumb-rose_gold"
 >
 	<h1
 		class="text-6xl font-roboto-serif font-bold text-atomic_tangerine leading-none dark:text-rose_gold"
@@ -41,3 +41,20 @@
 		>
 	</p>
 </article>
+<style is:global>
+	.informacion-del-sitio {
+		container-name: informacion-del-sitio;
+		container-type: size;
+	}
+
+	@container informacion-del-sitio (max-width: 256px) {
+		.informacion-del-sitio > h1 {
+			font-size: 2.25rem;
+			line-height: calc(1.75 / 1.25);
+		}
+		.informacion-del-sitio > p {
+			font-size: 1.25rem;
+			line-height: calc(1.75 / 1.25);
+		}
+	}
+</style>
