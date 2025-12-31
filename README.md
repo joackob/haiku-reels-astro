@@ -49,18 +49,19 @@ Además la estructura básica de cualquier proyecto desarrollado con Astro🚀, 
 
 En la carpeta `backgrounds` se encuentran cada uno de los "fondos" que acompañan a los haikus, separados por carpetas.
 
-Si bien, cada desarrollador es libre de generar los fondos que desee, parece importante comentar tres características que deben tener de obligatoria
-
-
+Si bien, cada desarrollador es libre de generar los fondos que desee, es muy importante que cualquiera de ellos agregue una etiqueta `slot` en alguna parte del background. El sistema usará dicha etiqueta para colocar el haiku y los datos adjuntos.
 
 ```react
----
-import HaikuSection from "@haiku/haiku-section.astro";
----
-
-<HaikuSection>
-  <div class="bg-atomic_tangerine h-full"><slot /></div>
-</HaikuSection>
+<div class="relative h-full">
+ <canvas class="absolute h-full w-full" container-bg-pez-koi></canvas>
+ <div class="flex flex-col h-full">
+  <div class="grow"></div>
+  <div class="relative z-10">
+   <slot />
+  </div>
+  <div class="grow-[2]"></div>
+ </div>
+</div>
 ```
 
 ## Haikus
@@ -126,7 +127,7 @@ All commands are run from the root of the project, from a terminal:
 | Command                   | Action                                             |
 | :------------------------ | :------------------------------------------------- |
 | `bun install`             | Installs dependencies                              |
-| `bun run build:dev`         | Build your dev site adding haikus into `./public/` |
+| `bun run build:dev`       | Build your dev site adding haikus into `./public/` |
 | `bun run dev`             | Starts local dev server at `localhost:3000`        |
 | `bun run build`           | Build your production site to `./dist/`            |
 | `bun run preview`         | Preview your build locally, before deploying       |
