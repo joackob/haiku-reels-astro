@@ -9,6 +9,7 @@ import BgTemplo from "@backgrounds/bg-templo/index.astro";
 import BgLamparas from "@backgrounds/bg-lampara/index.astro";
 import BgTanuki from "@backgrounds/bg-tanuki/index.astro";
 import { getCollection, type CollectionEntry } from "astro:content";
+import { render } from "astro:content";
 import type { GetStaticPaths } from "astro";
 
 export const getStaticPaths: GetStaticPaths = async () => {
@@ -25,7 +26,7 @@ type Props = { haikus: CollectionEntry<"haikus">[] };
 
 const fondosArtisticos = [BgTanuki, BgLamparas, BgTemplo, BgOrigamis, BgJ];
 const { haikus } = Astro.props;
-const HaikusComponents = await Promise.all(haikus.map(async (haiku) => await haiku.render()));
+const HaikusComponents = await Promise.all(haikus.map(async (haiku) => await render(haiku)));
 ---
 
 <EstructuraBaseParaTodoElSitio>
