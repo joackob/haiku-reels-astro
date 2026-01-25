@@ -1,0 +1,24 @@
+User-agent: *
+Allow: /
+
+# Priorizar páginas importantes
+Allow: /haiku-reels-astro/
+Allow: /haiku-reels-astro/haikus/
+Allow: /haiku-reels-astro/autores/
+Allow: /haiku-reels-astro/etiquetas/
+
+# Permitir búsqueda de Pagefind
+Allow: /haiku-reels-astro/pagefind/
+
+# Bloquear archivos innecesarios para SEO
+Disallow: /haiku-reels-astro/api/
+Disallow: /haiku-reels-astro/admin/
+Disallow: /haiku-reels-astro/_astro/
+Disallow: /*.json$
+Disallow: /*.xml$
+
+# Sitemap
+Sitemap: https://joackob.github.io/haiku-reels-astro/sitemap-index.xml
+
+# Tiempo de crawl (opcional)
+Crawl-delay: 1

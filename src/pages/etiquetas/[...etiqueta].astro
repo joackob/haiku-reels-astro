@@ -28,15 +28,29 @@ type Props = { haikus: CollectionEntry<"haikus">[] };
 
 const fondosArtisticos = [BgTanuki, BgLamparas, BgTemplo, BgOrigamis, BgJ];
 const { haikus } = Astro.props;
-const HaikusComponents = await Promise.all(haikus.map(async (haiku) => await render(haiku)));
+const HaikusComponents = await Promise.all(
+	(haikus as CollectionEntry<"haikus">[]).map(async (haiku) => await render(haiku)),
+);
+
+// Get current tag from URL
+const currentTag = Astro.params.etiqueta as string;
+const tagTitle = `Haikus con etiqueta: ${currentTag}`;
+const tagDescription = `Colección de haikus etiquetados como "${currentTag}". Descubre poesía haiku sobre este tema específico.`;
+const tagKeywords = `haiku, ${currentTag}, poesía, etiqueta, literatura`;
 ---
 
-<EstructuraBaseParaTodoElSitio>
+<EstructuraBaseParaTodoElSitio
+	titulo={tagTitle}
+	descripcion={tagDescription}
+	keywords={tagKeywords}
+	type="website"
+>
 	<EstructuraParaEfectoReel>
 		{
-			HaikusComponents.map(({ Content: Haiku }, index) => {
+			haikus.map((haiku, index) => {
 				const FondoArtistico = fondosArtisticos[index % fondosArtisticos.length];
-				const { autoria, pubDate, tags } = haikus[index].data;
+				const { Content: Haiku } = HaikusComponents[index];
+				const { autoria, pubDate, tags } = haiku.data;
 				return (
 					<SeccionParaCadaHaikuReel>
 						<FondoArtistico>

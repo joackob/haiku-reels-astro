@@ -7,12 +7,48 @@ import "../styles/global.css";
 export interface Props {
 	titulo?: string;
 	descripcion?: string;
+	image?: string;
+	imageAlt?: string;
+	type?: string;
+	keywords?: string;
+	author?: string;
+	publishDate?: Date;
+	modifiedDate?: Date;
+	tags?: string[];
+	category?: string;
+	schema?: Record<string, any>;
 }
 
-const { titulo = SITE_TITLE, descripcion = SITE_DESCRIPTION }: Props = Astro.props;
+const {
+	titulo = SITE_TITLE,
+	descripcion = SITE_DESCRIPTION,
+	image,
+	imageAlt,
+	type,
+	keywords,
+	author,
+	publishDate,
+	modifiedDate,
+	tags,
+	category,
+	schema,
+}: Props = Astro.props;
 ---
 
-<CuerpoBaseParaTodoElSitio titulo={titulo} descripcion={descripcion}>
+<CuerpoBaseParaTodoElSitio
+	titulo={titulo}
+	descripcion={descripcion}
+	image={image}
+	imageAlt={imageAlt}
+	type={type}
+	keywords={keywords}
+	author={author}
+	publishDate={publishDate}
+	modifiedDate={modifiedDate}
+	tags={tags}
+	category={category}
+	schema={schema}
+>
 	<EstiloAAplicarEnTodoElSitio />
 	<slot />
 </CuerpoBaseParaTodoElSitio>

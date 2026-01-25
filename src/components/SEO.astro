@@ -1,0 +1,115 @@
+---
+interface SEOProps {
+	title?: string;
+	description?: string;
+	image?: string;
+	imageAlt?: string;
+	url?: string;
+	type?: string;
+	keywords?: string;
+	author?: string;
+	publishDate?: Date;
+	modifiedDate?: Date;
+	tags?: string[];
+	category?: string;
+	schema?: Record<string, any>;
+}
+
+const {
+	title = "Haiku Reels",
+	description = "Colección de haikus creativos escritos por estudiantes. Descubre poesía japonesa tradicional y contemporánea.",
+	image = "/haiku-reels-astro/android-chrome-512x512.png",
+	imageAlt = "Haiku Reels - Colección de poesía haiku",
+	url = Astro.url.href,
+	type = "website",
+	keywords = "haiku, poesía, literatura, estudiantes, creatividad, poesía japonesa, escritura creativa",
+	author,
+	publishDate,
+	modifiedDate,
+	tags,
+	category,
+	schema = {},
+}: SEOProps = Astro.props;
+
+// Generate canonical URL
+const canonicalUrl = new URL(url, Astro.site);
+const siteUrl = Astro.site?.toString() || "https://joackob.github.io/haiku-reels-astro";
+
+// Generate structured data
+const structuredData = {
+	"@context": "https://schema.org",
+	"@type": type === "article" ? "Article" : "WebPage",
+	name: title,
+	description: description,
+	url: canonicalUrl.toString(),
+	image: image ? new URL(image, siteUrl).toString() : undefined,
+	author: author
+		? {
+				"@type": "Person",
+				name: author,
+			}
+		: undefined,
+	publisher: {
+		"@type": "Organization",
+		name: "Haiku Reels",
+		url: siteUrl,
+	},
+	datePublished: publishDate?.toISOString(),
+	dateModified: modifiedDate?.toISOString(),
+	keywords: keywords,
+	inLanguage: "es",
+	isPartOf: {
+		"@type": "WebSite",
+		name: "Haiku Reels",
+		url: siteUrl,
+	},
+	...schema,
+};
+---
+
+<!-- Basic Meta Tags -->
+<title>{title}</title>
+<meta name="title" content={title} />
+<meta name="description" content={description} />
+<meta name="keywords" content={keywords} />
+{author && <meta name="author" content={author} />}
+<meta name="language" content="es" />
+<meta name="robots" content="index, follow" />
+<meta name="revisit-after" content="7 days" />
+
+<!-- Canonical URL -->
+<link rel="canonical" href={canonicalUrl.toString()} />
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content={type} />
+<meta property="og:url" content={canonicalUrl.toString()} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+{
+	image && (
+		<>
+			<meta property="og:image" content={new URL(image, siteUrl).toString()} />
+			<meta property="og:image:alt" content={imageAlt} />
+			<meta property="og:image:width" content="1200" />
+			<meta property="og:image:height" content="630" />
+		</>
+	)
+}
+<meta property="og:site_name" content="Haiku Reels" />
+<meta property="og:locale" content="es_ES" />
+
+<!-- Twitter -->
+<meta property="twitter:card" content="summary_large_image" />
+<meta property="twitter:url" content={canonicalUrl.toString()} />
+<meta property="twitter:title" content={title} />
+<meta property="twitter:description" content={description} />
+{image && <meta property="twitter:image" content={new URL(image, siteUrl).toString()} />}
+
+<!-- Additional Meta Tags -->
+{tags && <meta name="article:tag" content={tags.join(", ")} />}
+{category && <meta name="article:section" content={category} />}
+{publishDate && <meta property="article:published_time" content={publishDate.toISOString()} />}
+{modifiedDate && <meta property="article:modified_time" content={modifiedDate.toISOString()} />}
+
+<!-- Structured Data -->
+<script type="application/ld+json" set:html={JSON.stringify(structuredData)} />

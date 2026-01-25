@@ -6,12 +6,13 @@ import EstructuraParaEfectoReel from "@layouts/estructura-principal-para-efecto-
 import SeccionParaCadaTarjetaReel from "@layouts/seccion-para-cada-tarjeta-reel.astro";
 import BgOrigamis from "@backgrounds/bg-origamis/index.astro";
 import ArticuloParaCadaHaiku from "@components/articulo-para-cada-haiku/index.astro";
+import { generarSlugOptimizado, generarMetaDescripcion, generarKeywords } from "@utils/seo";
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 export async function getStaticPaths() {
 	const posts = await getCollection("haikus");
 	return posts.map((post) => ({
-		params: { slug: post.id.replace(/\.md$/, "") },
+		params: { slug: generarSlugOptimizado(post) },
 		props: post,
 	}));
 }
@@ -20,9 +21,58 @@ type Props = CollectionEntry<"haikus">;
 
 const post = Astro.props;
 const { Content: Haiku } = await render(post);
+
+// Generate SEO metadata using utility functions
+const haikuTitle = (post.data as any).title || `Haiku de ${post.data.autoria}`;
+const haikuDescription = (post.data as any).description || generarMetaDescripcion(post);
+const haikuKeywords = (post.data as any).keywords || generarKeywords(post);
+const haikuImage = (post.data as any).image || "/haiku-reels-astro/android-chrome-512x512.png";
+const haikuImageAlt =
+	(post.data as any).imageAlt || `Ilustración para el haiku de ${post.data.autoria}`;
+
+// Create structured data for article
+const articleSchema = {
+	"@context": "https://schema.org",
+	"@type": "Article",
+	headline: haikuTitle,
+	description: haikuDescription,
+	author: {
+		"@type": "Person",
+		name: post.data.autoria,
+	},
+	publisher: {
+		"@type": "Organization",
+		name: "Haiku Reels",
+	},
+	datePublished: post.data.pubDate,
+	dateModified: (post.data as any).modifiedDate || post.data.pubDate,
+	about: post.data.tags?.map((tag) => ({
+		"@type": "Thing",
+		name: tag,
+	})),
+	educationalUse: "literature",
+	learningResourceType: "poetry",
+	audience: {
+		"@type": "EducationalAudience",
+	},
+	inLanguage: "es",
+};
 ---
 
-<EstructuraBaseParaTodoElSitio>
+<EstructuraBaseParaTodoElSitio
+	titulo={haikuTitle}
+	descripcion={haikuDescription}
+	image={haikuImage}
+	imageAlt={haikuImageAlt}
+	type="article"
+	keywords={haikuKeywords}
+	author={post.data.autoria}
+	publishDate={post.data.pubDate}
+	modifiedDate={(post.data as any).modifiedDate}
+	tags={post.data.tags}
+	category={(post.data as any).category || "Poesía"}
+	schema={articleSchema}
+>
 	<EstructuraParaEfectoReel>
 		<SeccionParaCadaTarjetaReel>
 			<BgOrigamis>
